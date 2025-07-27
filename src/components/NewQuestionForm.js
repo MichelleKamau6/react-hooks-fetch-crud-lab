@@ -7,6 +7,7 @@ function NewQuestionForm({ onAddQuestion }) {
     correctIndex: 0,
   });
 
+  // Handle input changes
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -20,31 +21,41 @@ function NewQuestionForm({ onAddQuestion }) {
     }
   }
 
+  // Submit form to server
   function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    fetch("http://localhost:4000/questions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: formData.prompt,
-        answers: formData.answers,
-        correctIndex: parseInt(formData.correctIndex),
-      }),
-    })
-      .then((res) => res.json())
-      .then(onAddQuestion);
+  fetch("http://localhost:4000/questions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prompt: formData.prompt,
+      answers: formData.answers,
+      correctIndex: parseInt(formData.correctIndex)
+    }),
+  })
+    .then((res) => res.json())
+    .then(onAddQuestion);
 
-    // Optional: reset form
-    setFormData({ prompt: "", answers: ["", "", "", ""], correctIndex: 0 });
-  }
+  setFormData({
+    prompt: "",
+    answers: ["", "", "", ""],
+    correctIndex: 0,
+  });
+}
+
 
   return (
     <form onSubmit={handleSubmit}>
       <h3>New Question</h3>
 
       <label>Prompt:</label>
-      <input name="prompt" value={formData.prompt} onChange={handleChange} required />
+      <input
+        name="prompt"
+        value={formData.prompt}
+        onChange={handleChange}
+        required
+      />
 
       <br />
       <label>Answers:</label>
@@ -61,7 +72,11 @@ function NewQuestionForm({ onAddQuestion }) {
 
       <br />
       <label>Correct Answer:</label>
-      <select name="correctIndex" value={formData.correctIndex} onChange={handleChange}>
+      <select
+        name="correctIndex"
+        value={formData.correctIndex}
+        onChange={handleChange}
+      >
         {formData.answers.map((_, i) => (
           <option key={i} value={i}>
             {`Answer ${i + 1}`}

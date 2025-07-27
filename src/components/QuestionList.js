@@ -1,7 +1,7 @@
 import React from "react";
 
 function QuestionList({ questions, setQuestions }) {
-  // Handle delete
+  // Delete question from server and state
   function handleDelete(id) {
     fetch(`http://localhost:4000/questions/${id}`, {
       method: "DELETE",
@@ -11,7 +11,7 @@ function QuestionList({ questions, setQuestions }) {
     });
   }
 
-  // Handle correctIndex change (PATCH)
+  // Update correct answer index on server and state
   function handleCorrectIndexChange(id, newIndex) {
     fetch(`http://localhost:4000/questions/${id}`, {
       method: "PATCH",
@@ -31,11 +31,23 @@ function QuestionList({ questions, setQuestions }) {
     <section>
       <h2>Questions</h2>
       {questions.map((question) => (
-        <div key={question.id} style={{ border: "1px solid gray", padding: "10px", marginBottom: "10px" }}>
+        <div
+          key={question.id}
+          style={{
+            border: "1px solid gray",
+            padding: "10px",
+            marginBottom: "10px",
+          }}
+        >
           <h4>{question.prompt}</h4>
           <ol type="A">
             {question.answers.map((ans, i) => (
-              <li key={i} style={{ fontWeight: i === question.correctIndex ? "bold" : "normal" }}>
+              <li
+                key={i}
+                style={{
+                  fontWeight: i === question.correctIndex ? "bold" : "normal",
+                }}
+              >
                 {ans}
               </li>
             ))}
@@ -44,7 +56,9 @@ function QuestionList({ questions, setQuestions }) {
             Correct Answer:
             <select
               value={question.correctIndex}
-              onChange={(e) => handleCorrectIndexChange(question.id, e.target.value)}
+              onChange={(e) =>
+                handleCorrectIndexChange(question.id, e.target.value)
+              }
             >
               {question.answers.map((_, i) => (
                 <option key={i} value={i}>

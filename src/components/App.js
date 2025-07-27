@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import QuestionList from "./QuestionList";
 import NewQuestionForm from "./NewQuestionForm";
+import QuestionList from "./QuestionList";
 
 function App() {
   const [questions, setQuestions] = useState([]);
 
-  // Fetch questions on component mount
+  // Fetch all questions when the app loads
   useEffect(() => {
     fetch("http://localhost:4000/questions")
       .then((res) => res.json())
       .then(setQuestions);
   }, []);
 
-  // Add a new question to state
+  // Add a new question to the state
   function handleAddQuestion(newQuestion) {
     setQuestions([...questions, newQuestion]);
   }
