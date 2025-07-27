@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import AdminNavBar from "./AdminNavBar";
 import NewQuestionForm from "./NewQuestionForm";
 import QuestionList from "./QuestionList";
 
 function App() {
   const [questions, setQuestions] = useState([]);
+  const [page, setPage] = useState("List");
 
   // Fetch all questions when the app loads
   useEffect(() => {
@@ -19,9 +21,13 @@ function App() {
 
   return (
     <main>
+      <AdminNavBar onChangePage={setPage} />
       <h1>Quiz Admin Panel</h1>
-      <NewQuestionForm onAddQuestion={handleAddQuestion} />
-      <QuestionList questions={questions} setQuestions={setQuestions} />
+      {page === "Form" ? (
+        <NewQuestionForm onAddQuestion={handleAddQuestion} />
+      ) : (
+        <QuestionList questions={questions} setQuestions={setQuestions} />
+      )}
     </main>
   );
 }

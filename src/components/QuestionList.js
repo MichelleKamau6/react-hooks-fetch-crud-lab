@@ -13,18 +13,18 @@ function QuestionList({ questions, setQuestions }) {
 
   // Update correct answer index on server and state
   function handleCorrectIndexChange(id, newIndex) {
+    // Optimistically update the state first
+    const updated = questions.map((q) =>
+      q.id === id ? { ...q, correctIndex: parseInt(newIndex) } : q
+    );
+    setQuestions(updated);
+
+    // Then sync with server
     fetch(`http://localhost:4000/questions/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ correctIndex: parseInt(newIndex) }),
-    })
-      .then((res) => res.json())
-      .then((updatedQuestion) => {
-        const updated = questions.map((q) =>
-          q.id === updatedQuestion.id ? updatedQuestion : q
-        );
-        setQuestions(updated);
-      });
+    });
   }
 
   return (
@@ -52,9 +52,10 @@ function QuestionList({ questions, setQuestions }) {
               </li>
             ))}
           </ol>
-          <label>
+          <label htmlFor={`correctIndex-${question.id}`}>
             Correct Answer:
             <select
+              id={`correctIndex-${question.id}`}
               value={question.correctIndex}
               onChange={(e) =>
                 handleCorrectIndexChange(question.id, e.target.value)
@@ -68,7 +69,7 @@ function QuestionList({ questions, setQuestions }) {
             </select>
           </label>
           <br />
-          <button onClick={() => handleDelete(question.id)}>Delete</button>
+          <button onClick={() => handleDelete(question.id)}>Delete Question</button>
         </div>
       ))}
     </section>

@@ -49,8 +49,9 @@ function NewQuestionForm({ onAddQuestion }) {
     <form onSubmit={handleSubmit}>
       <h3>New Question</h3>
 
-      <label>Prompt:</label>
+      <label htmlFor="prompt">Prompt:</label>
       <input
+        id="prompt"
         name="prompt"
         value={formData.prompt}
         onChange={handleChange}
@@ -58,21 +59,24 @@ function NewQuestionForm({ onAddQuestion }) {
       />
 
       <br />
-      <label>Answers:</label>
+      <br />
       {formData.answers.map((ans, i) => (
-        <input
-          key={i}
-          name={`answer${i}`}
-          value={ans}
-          onChange={handleChange}
-          placeholder={`Answer ${i + 1}`}
-          required
-        />
+        <div key={i}>
+          <label htmlFor={`answer${i}`}>Answer {i + 1}:</label>
+          <input
+            id={`answer${i}`}
+            name={`answer${i}`}
+            value={ans}
+            onChange={handleChange}
+            required
+          />
+        </div>
       ))}
 
       <br />
-      <label>Correct Answer:</label>
+      <label htmlFor="correctIndex">Correct Answer:</label>
       <select
+        id="correctIndex"
         name="correctIndex"
         value={formData.correctIndex}
         onChange={handleChange}

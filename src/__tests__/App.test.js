@@ -8,11 +8,15 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { server } from "../mocks/server";
+import { resetData } from "../mocks/handlers";
 
 import App from "../components/App";
 
 beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
+afterEach(() => {
+  server.resetHandlers();
+  resetData();
+});
 afterAll(() => server.close());
 
 test("displays question prompts after fetching", async () => {
