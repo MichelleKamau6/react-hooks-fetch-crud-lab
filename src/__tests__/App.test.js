@@ -1,13 +1,12 @@
 import React from "react";
 import "whatwg-fetch";
-import "@testing-library/jest-dom/extend-expect";
 import {
   fireEvent,
   render,
   screen,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
-
+import "@testing-library/jest-dom/extend-expect";
 import { server } from "../mocks/server";
 import { resetData } from "../mocks/handlers";
 
